@@ -1,7 +1,6 @@
 import SignInForm from "@/components/SignInForm";
 import SignInOptGroup from "@/components/SignInOptGroup";
 import Link from "next/link";
-import React from "react";
 
 const SignInPage = () => {
   return (
