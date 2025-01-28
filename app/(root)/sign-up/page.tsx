@@ -1,18 +1,39 @@
+import { auth } from '@/auth'
 import SignInOptGroup from '@/components/SignInOptGroup'
 import SignUpForm from '@/components/SignUpForm'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
-const SignInPage = () => {
+const SignInPage = async () => {
+  const session = await auth();
+  if (session) {
+    redirect('/')
+  }
+
   return (
     <section>
-      <h1 className='font-workSans text-6xl font-bold mt-2 mb-8'>Sign up</h1>
-      <p className='mt-4 text-base'>Create your <b>Share<span className='text-blue-500'>it</span></b> account using:</p>
+      <h1 className="header-text_gradient">Sign Up</h1>
 
+      <div className="relative opacity-50">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="border-t w-4/5 border-gray-700"></div>
+        </div>
+        <div className="relative flex items-center justify-center">
+          <span className="bg-white p-2 text-base">Sign up with:</span>
+        </div>
+      </div>
 
       <SignInOptGroup newUser={true} />
 
-      <div className='divider'></div>
+      <div className="relative opacity-50">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="border-t w-4/5 border-gray-700"></div>
+        </div>
+        <div className="relative flex items-center justify-center">
+          <span className="bg-white p-2 text-base">Or continue with email</span>
+        </div>
+      </div>
 
       <SignUpForm />
 

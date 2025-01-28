@@ -1,25 +1,50 @@
-import React from "react";
+"use client"
+
+import React, { useActionState } from "react";
 import { Input } from "./ui/input";
 import Button from "./Button";
+import ErrorMsg from "./ErrorMsg";
+import { signInUser } from "@/lib/actions";
+
+export interface signinStateProps {
+  success: boolean | null;
+  values: {
+    emailAddress: string,
+    password: string,
+  };
+  errors: Record<string, string[] | undefined>
+}
 
 const SignInForm = () => {
+  const [state, action, isPending] = useActionState(signInUser, {
+    success: null,
+    values: {
+      emailAddress: "",
+      password: "",
+    },
+    errors: {}
+  })
+
   return (
-    <form className="sign-form">
+    <form action={action} className="sign-form">
       <div className="form_control-group group">
         <label
-          htmlFor="email"
+          htmlFor="emailAddress"
           className="form_control-label group-has-[:focus]:top-0 group-has-[:valid]:top-0"
         >
-          Email
+          Email Address
         </label>
         <Input
-          id="email"
+          id="emailAddress"
           className="form_control-input"
           type="text"
-          name="email"
+          name="emailAddress"
           required
+          defaultValue={state.values.emailAddress}
         />
       </div>
+      <ErrorMsg errArr={state.errors?.emailAddress} />
+
       <div className="form_control-group group">
         <label
           htmlFor="password"
@@ -33,9 +58,12 @@ const SignInForm = () => {
           type="password"
           name="password"
           required
+          defaultValue={state.values.password}
         />
       </div>
-      <Button type="submit" className="form_control-btn">
+      <ErrorMsg errArr={state.errors?.password} />
+
+      <Button type="submit" className="form_control-btn" disabled={isPending}>
         Submit
       </Button>
     </form>

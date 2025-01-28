@@ -121,13 +121,13 @@
   }
 }
 
-@layer components {
+@layer utilities {
   .header-text_gradient {
     @apply mb-5 text-7xl font-facinate-inline font-bold bg-gradient-to-r from-blue-500 via-green-300 to-blue-500 text-transparent bg-clip-text;
   }
 
   .signin_options {
-    @apply mt-5 flex gap-2 items-center justify-center;
+    @apply my-5 flex gap-2 items-center justify-center;
   }
 
   .signin_option {
@@ -135,24 +135,22 @@
   }
 
   .form_control-group {
-    @apply relative flex flex-col gap-4;
+    @apply relative mb-6;
   }
 
   .form_control-label {
-    @apply px-2 bg-white absolute top-1/2 -translate-y-1/2 left-2 text-gray-600 transition-all z-10;
+    @apply px-2 bg-white absolute top-1/2 -translate-y-1/2 left-2 text-gray-600 transition-all z-10 group-has-[:focus]:top-0 group-has-[:valid]:top-0 group-has-[:focus]:text-sm
   }
 
   .form_control-input {
-    @apply w-full p-2 text-gray-900 outline-none border border-slate-500 rounded-sm shadow-none focus:border-none focus:outline focus:outline-sky-700 focus:shadow-sm;
+    @apply relative w-full p-2 text-gray-900 outline-none border border-slate-500 rounded-sm shadow-none focus:border-none focus:outline focus:outline-sky-700 focus:shadow-sm;
   }
 
   .form_control-btn {
-    @apply w-full py-2 px-5 font-bold bg-gray-900 text-slate-50 rounded-sm;
+    @apply w-full py-2 px-5 font-bold bg-gray-900 text-slate-50 rounded-sm disabled:bg-gray-300 disabled:border-gray-200;
   }
-}
 
-@layer utilities {
   .sign-form {
-    @apply relative mt-5 w-full max-w-lg space-y-4;
+    @apply relative mt-5 mx-auto w-full max-w-lg;
   }
 }

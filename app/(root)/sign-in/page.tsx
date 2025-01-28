@@ -1,8 +1,15 @@
+import { auth } from "@/auth";
 import SignInForm from "@/components/SignInForm";
 import SignInOptGroup from "@/components/SignInOptGroup";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-const SignInPage = () => {
+const SignInPage = async () => {
+  const session = await auth();
+  if (session) {
+    redirect('/')
+  }
+
   return (
     <section className="mx-auto">
       <h1 className="header-text_gradient">Sign In</h1>
@@ -12,13 +19,20 @@ const SignInPage = () => {
           <div className="border-t w-4/5 border-gray-700"></div>
         </div>
         <div className="relative flex items-center justify-center">
-          <span className="bg-white p-2 text-base">Sign up with:</span>
+          <span className="bg-white p-2 text-base">Sign In with:</span>
         </div>
       </div>
 
       <SignInOptGroup newUser={false} />
 
-      <div className="divider"></div>
+      <div className="relative opacity-50">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="border-t w-4/5 border-gray-700"></div>
+        </div>
+        <div className="relative flex items-center justify-center">
+          <span className="bg-white p-2 text-base">Or continue with email</span>
+        </div>
+      </div>
 
       <SignInForm />
 
