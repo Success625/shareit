@@ -17,9 +17,11 @@ export const signinUserSchema = z.object({
   emailAddress: z.string().min(1, 'Email address is required!'),
   password: z.string().min(1, "Password is required")
 }).superRefine(async (data, ctx) => {
+  console.log("Beginning of function");
   const user = await db.user.findFirst({
     where: { emailAddress: data.emailAddress },
   })
+  console.log("End of function");
 
   if (!user) {
     ctx.addIssue({

@@ -5,7 +5,7 @@ import React from 'react'
 const Page = async () => {
   const session = await auth();
   if (!session) {
-    redirect('/auth/sign-in')
+    redirect('/sign-in')
   }
 
   return (

@@ -90,7 +90,7 @@ export async function signInUser(prevState: signinStateProps, formData: FormData
       newState.errors = errors;
     }
 
-    console.log("Unexpected error:", error)
+    console.error("Unexpected error:", error)
   }
 
   return newState;
