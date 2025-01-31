@@ -67,5 +67,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return encode(params)
     },
+  },
+  pages: {
+    signIn: "/sign-in",
+    signOut: "/sign-out",
   }
 })

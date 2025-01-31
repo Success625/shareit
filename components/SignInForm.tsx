@@ -5,6 +5,7 @@ import { Input } from "./ui/input";
 import Button from "./Button";
 import ErrorMsg from "./ErrorMsg";
 import { signInUser } from "@/lib/actions";
+import { redirect } from "next/navigation";
 
 export interface signinStateProps {
   success: boolean | null;
@@ -24,6 +25,10 @@ const SignInForm = () => {
     },
     errors: {}
   })
+
+  if (state.success) {
+    redirect('/')
+  }
 
   return (
     <form action={action} className="sign-form">

@@ -7,6 +7,7 @@ import { signinUserSchema, userSchema } from "./zod";
 import { signIn } from "@/auth";
 import { passwordHash } from "./bcrypt";
 import db from "./db";
+import { signinUser } from "./utils";
 
 export async function signUpUser(prevState: any, formData: FormData): Promise<stateProps> {
   const firstname = formData.get("firstname")?.toString().trim() || '';
@@ -30,25 +31,16 @@ export async function signUpUser(prevState: any, formData: FormData): Promise<st
   }
 
   try {
-    await userSchema.parseAsync(formValues)
+    await userSchema.parseAsync(formValues);
     const hashedPassword = await passwordHash(password).catch(err => {
       console.error("Password hashing failed!", err)
-      throw err
-    })
+    }) as string;
 
     try {
       await db.user.create({
         data: { firstname, lastname, emailAddress, hashedPassword }
       }).then(async () => {
-        const signinFormData = new FormData();
-        signinFormData.append("emailAddress", emailAddress);
-        signinFormData.append("password", password);
-
-        await signIn('credentials', signinFormData).catch(error => {
-          console.error("Sign in failed!", error);
-          throw error
-        })
-
+        await signinUser(emailAddress, password, newState)
       })
     } catch (error) {
       console.error("Database error:", error)
@@ -61,7 +53,6 @@ export async function signUpUser(prevState: any, formData: FormData): Promise<st
     }
 
     console.error("Unexpected error:", error)
-    throw error
   }
 
   return newState;
@@ -84,6 +75,7 @@ export async function signInUser(prevState: signinStateProps, formData: FormData
 
   try {
     await signinUserSchema.parseAsync(formValues)
+    await signinUser(emailAddress, password, newState)
   } catch (error) {
     if (error instanceof ZodError) {
       const errors = error.flatten().fieldErrors
