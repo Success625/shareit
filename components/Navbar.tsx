@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import Button from './Button';
+import { LuBadgePlus } from "react-icons/lu"
+import { IoMdLogOut } from "react-icons/io"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const NavBar = async () => {
   const session = await auth();
@@ -18,7 +21,10 @@ const NavBar = async () => {
         {session && session?.user ? (
           <>
             <li className='nav_ul_item'>
-              <Link href="/post" className='nav_link'>Post</Link>
+              <Link href="/post" className='nav_link'>
+                <span className='sm:block hidden'>Post</span>
+                <span className='sm:hidden block'><LuBadgePlus /></span>
+              </Link>
             </li>
 
             <li className='nav_ul_item'>
@@ -27,12 +33,23 @@ const NavBar = async () => {
 
                 await signOut()
               }}>
-                <Button type='submit'>Sign Out</Button>
+                <Button type='submit' className='flex items-center'>
+                  <span className='sm:block hidden'>Sign Out</span>
+                  <span className='sm:hidden block'><IoMdLogOut /></span>
+                </Button>
               </form>
             </li>
 
             <li className='nav_ul_item'>
-              <Link href={`/user/${session.user?.id}`} className='nav_link'>{session?.user.firstname ? `${session?.user.firstname} ${session?.user.lastname}` : `${session?.user.name}`}</Link>
+              <Link href={`/user/${session.user?.id}`} className='nav_link'>
+                <span className='sm:block hidden'>{session?.user.firstname ? `${session?.user.firstname} ${session?.user.lastname}` : `${session?.user.name}`}</span>
+                <span className='sm:hidden block'>
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </span>
+              </Link>
             </li>
           </>
         ) : (

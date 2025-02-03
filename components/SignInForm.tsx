@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 export interface signinStateProps {
   success: boolean | null;
   values: {
-    emailAddress: string,
+    email: string,
     password: string,
   };
   errors: Record<string, string[] | undefined>
@@ -20,7 +20,7 @@ const SignInForm = () => {
   const [state, action, isPending] = useActionState(signInUser, {
     success: null,
     values: {
-      emailAddress: "",
+      email: "",
       password: "",
     },
     errors: {}
@@ -34,21 +34,21 @@ const SignInForm = () => {
     <form action={action} className="sign-form">
       <div className="form_control-group group">
         <label
-          htmlFor="emailAddress"
+          htmlFor="email"
           className="form_control-label group-has-[:focus]:top-0 group-has-[:valid]:top-0"
         >
           Email Address
         </label>
         <Input
-          id="emailAddress"
+          id="email"
           className="form_control-input"
           type="text"
-          name="emailAddress"
+          name="email"
           required
-          defaultValue={state.values.emailAddress}
+          defaultValue={state.values.email}
         />
       </div>
-      <ErrorMsg errArr={state.errors?.emailAddress} />
+      <ErrorMsg errArr={state.errors?.email} />
 
       <div className="form_control-group group">
         <label

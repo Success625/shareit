@@ -14,12 +14,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter,
   providers: [Google, Facebook, Credentials({
     credentials: {
-      emailAddress: {},
+      email: {},
       password: {}
     },
     authorize: async (credentials) => {
       const user = await db.user.findFirst({
-        where: { emailAddress: credentials.emailAddress }
+        where: { email: credentials.email }
       });
 
       if (!user) {
@@ -36,13 +36,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }
   })],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
+      // if (user && account?.provider === "credentials") {
+      //   token.name = user?.firstname + ' ' + user?.lastname
+      // }
+
       if (account?.provider === "credentials") {
         token.credentials = true
       }
 
       return token
-    }
+    },
+    // async session({ session, token }) {
+    //   if (token.credentials) {
+    //     session.user.name = token.name
+    //   }
+    //
+    //   return session
+    // }
   },
   jwt: {
     encode: async function (params) {
@@ -70,6 +81,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   pages: {
     signIn: "/sign-in",
-    signOut: "/sign-out",
+    signOut: "/sign-out"
   }
 })

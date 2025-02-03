@@ -12,7 +12,7 @@ export interface stateProps {
   values: {
     firstname: string,
     lastname: string,
-    emailAddress: string,
+    email: string,
     password: string,
     passwordConfirm: string,
   };
@@ -25,7 +25,7 @@ const SignUpForm = () => {
     values: {
       firstname: "",
       lastname: "",
-      emailAddress: "",
+      email: "",
       password: "",
       passwordConfirm: ""
     },
@@ -81,21 +81,21 @@ const SignUpForm = () => {
 
       <div className="form_control-group group">
         <label
-          htmlFor="emailAddress"
+          htmlFor="email"
           className="form_control-label"
         >
           Email Address
         </label>
         <Input
-          id="emailAddress"
+          id="email"
           className="form_control-input"
           type="text"
-          name="emailAddress"
+          name="email"
           required
-          defaultValue={state.values.emailAddress}
+          defaultValue={state.values.email}
         />
       </div>
-      <ErrorMsg errArr={state.errors?.emailAddress} />
+      <ErrorMsg errArr={state.errors?.email} />
 
       <div className="form_control-group group">
         <label

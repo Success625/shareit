@@ -4,7 +4,6 @@ import { ZodError } from "zod"
 import { stateProps } from "@/components/SignUpForm";
 import { signinStateProps } from "@/components/SignInForm";
 import { signinUserSchema, userSchema } from "./zod";
-import { signIn } from "@/auth";
 import { passwordHash } from "./bcrypt";
 import db from "./db";
 import { signinUser } from "./utils";
@@ -12,18 +11,18 @@ import { signinUser } from "./utils";
 export async function signUpUser(prevState: any, formData: FormData): Promise<stateProps> {
   const firstname = formData.get("firstname")?.toString().trim() || '';
   const lastname = formData.get("lastname")?.toString().trim() || '';
-  const emailAddress = formData.get("emailAddress")?.toString().trim() || '';
+  const email = formData.get("email")?.toString().trim() || '';
   const password = formData.get("password")?.toString().trim() || '';
   const passwordConfirm = formData.get("passwordConfirm")?.toString().trim() || '';
 
-  const formValues = { firstname, lastname, emailAddress, password, passwordConfirm }
+  const formValues = { firstname, lastname, email, password, passwordConfirm }
 
   const newState: stateProps = {
     success: false,
     values: {
       firstname,
       lastname,
-      emailAddress,
+      email,
       password,
       passwordConfirm
     },
@@ -38,9 +37,9 @@ export async function signUpUser(prevState: any, formData: FormData): Promise<st
 
     try {
       await db.user.create({
-        data: { firstname, lastname, emailAddress, hashedPassword }
+        data: { firstname, lastname, email, hashedPassword }
       }).then(async () => {
-        await signinUser(emailAddress, password, newState)
+        await signinUser(email, password, newState)
       })
     } catch (error) {
       console.error("Database error:", error)
@@ -59,15 +58,15 @@ export async function signUpUser(prevState: any, formData: FormData): Promise<st
 }
 
 export async function signInUser(prevState: signinStateProps, formData: FormData): Promise<signinStateProps> {
-  const emailAddress = formData.get("emailAddress")?.toString().trim() || '';
+  const email = formData.get("email")?.toString().trim() || '';
   const password = formData.get("password")?.toString().trim() || '';
 
-  const formValues = { emailAddress, password }
+  const formValues = { email: email, password }
 
   const newState: signinStateProps = {
     success: false,
     values: {
-      emailAddress,
+      email: email,
       password,
     },
     errors: {}
@@ -75,7 +74,7 @@ export async function signInUser(prevState: signinStateProps, formData: FormData
 
   try {
     await signinUserSchema.parseAsync(formValues)
-    await signinUser(emailAddress, password, newState)
+    await signinUser(email, password, newState)
   } catch (error) {
     if (error instanceof ZodError) {
       const errors = error.flatten().fieldErrors
