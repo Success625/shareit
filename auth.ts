@@ -36,24 +36,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }
   })],
   callbacks: {
-    async jwt({ token, account, user }) {
-      // if (user && account?.provider === "credentials") {
-      //   token.name = user?.firstname + ' ' + user?.lastname
-      // }
-
+    async jwt({ token, account }) {
       if (account?.provider === "credentials") {
         token.credentials = true
       }
 
       return token
-    },
-    // async session({ session, token }) {
-    //   if (token.credentials) {
-    //     session.user.name = token.name
-    //   }
-    //
-    //   return session
-    // }
+    }
   },
   jwt: {
     encode: async function (params) {

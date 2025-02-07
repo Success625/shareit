@@ -23,7 +23,7 @@ const NavBar = async () => {
             <li className='nav_ul_item'>
               <Link href="/post" className='nav_link'>
                 <span className='sm:block hidden'>Post</span>
-                <span className='sm:hidden block'><LuBadgePlus /></span>
+                <span className='sm:hidden block'><LuBadgePlus className='text-xl' /></span>
               </Link>
             </li>
 
@@ -35,7 +35,7 @@ const NavBar = async () => {
               }}>
                 <Button type='submit' className='flex items-center'>
                   <span className='sm:block hidden'>Sign Out</span>
-                  <span className='sm:hidden block'><IoMdLogOut /></span>
+                  <span className='sm:hidden block'><IoMdLogOut className='text-xl' /></span>
                 </Button>
               </form>
             </li>

@@ -155,7 +155,7 @@
   }
 
   .nav_ul {
-    @apply flex gap-3 items-center
+    @apply flex gap-4 items-center
   }
 
   .nav_ul_item {
@@ -163,7 +163,7 @@
   }
 
   .nav_ul_item > * {
-    @apply text-2xl
+    @apply text-base
   }
 
   .hero {
